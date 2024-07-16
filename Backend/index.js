@@ -3,6 +3,7 @@
 
 const express = require("express");
 const { createTodo, updateTodo } = require("../types");
+const { todo } = require("node:test");
 
 const app = express();
 app.use(express.json());
@@ -12,7 +13,7 @@ app.use(express.json());
     discription:String
 }*/
 
-app.post("/todo",function(req,res){
+app.post("/todo",async function(req,res){
 
     const createPayLoad = req.body;
     const parsePayLoad = createTodo.safeParse(createPayLoad);
@@ -25,15 +26,27 @@ app.post("/todo",function(req,res){
     }
     //put it in mongoDb
 
+   await todo.create({
+        text: createPayLoad.text,
+        description: createPayLoad.description,
+        completed: false,
+    })
+    res.json({
+        msg:"your TODO is created"
+    })
+
 })
 
 
-app.get("/todos",function(req,res){
-
+app.get("/todos",async function(req,res){
+    const todos =await todo.find({}); // promise
+    res.json({
+        todos
+    })
 })
 
 
-app.put("/completed",(req,res)=>{
+app.put("/completed",async (req,res)=>{
     const updatePayLoad = req.body;
     const parsePayLoad = updateTodo.safeParse(updatePayLoad);
     if(!parsePayLoad.success)
@@ -44,4 +57,12 @@ app.put("/completed",(req,res)=>{
         return;
     }
     //update the todo in the mongoDb
+    await todo.update({
+        _id:req.body.id
+    },{
+        completed: true
+    })
+    res.json({
+        msg:"TODO is mark as completed"
+    })
 })
