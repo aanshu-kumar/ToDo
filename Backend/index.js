@@ -2,8 +2,8 @@
 // write exress.json() middleware
 
 const express = require("express");
-const { createTodo, updateTodo } = require("../types");
-const { todo } = require("node:test");
+const {createTodo, updateTodo} = require("./types")
+const { todo } = require("./db");
 
 const app = express();
 app.use(express.json());
@@ -27,7 +27,7 @@ app.post("/todo",async function(req,res){
     //put it in mongoDb
 
    await todo.create({
-        text: createPayLoad.text,
+        title: createPayLoad.title,
         description: createPayLoad.description,
         completed: false,
     })

@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
    completed: boolean
 }
 */
-mongoose.connect("mongodb://localhost:27017/")
+mongoose.connect("mongodb://localhost:27017/TodoApp")
 const todoSchema = mongoose.Schema({
     title: String,
     description: String,
