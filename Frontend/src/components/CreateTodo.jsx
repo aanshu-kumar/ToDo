@@ -30,7 +30,6 @@ function CreateTodo(){
                     }
                 }).then(async function (res){
                     const json = await res.json();
-                    alert("todo added");
                 })
             }}>Add a Todo</button>
             
